@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>Cells | Páginas Declarativas</title>
+
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/black.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-background-color="#0D0D0D">
+          <a href="">
+            <img
+              src="./assets/logo_cells.svg"
+              alt="cells for dummies"
+              height="200"
+            />
+          </a>
+          <h2>Cells for dummies</h2>
+          <p>Páginas Declarativas</p>
+        </section>
+
+        <section data-background-color="#0D0D0D">
+          <h3>Contenido</h3>
+          <ol>
+            <li>Overview</li>
+            <ul>
+              <li>Páginas Declarativas</li>
+              <li>Páginas Dinámicas</li>
+            </ul>
+            <li>Estructura</li>
+            <ul>
+              <li>Páginas Declarativas</li>
+              <li>Páginas Dinámicas</li>
+            </ul>
+            <li>Ejemplo</li>
+          </ol>
+        </section>
+
+        <section data-background-color="#BFB0A3">
+          <h2>Overview</h2>
+        </section>
+
+        <section data-background-color="#0D0D0D">
+          <section>
+            <h3>Páginas Declarativas</h3>
+            <p>
+              Este paradigma de arquitectura se adapta en las aplicaciones en
+              las que no es necesario tener una configuración compleja o de
+              <b>"múltiples entornos"</b> (para estos casos, se puede usar
+              páginas dinámicas que se definen en archivos JSON).
+            </p>
+          </section>
+          <section>
+            <h3>Páginas Dinámicas</h3>
+            <p>
+              Conjunto de páginas donde cada una se define como un diseño y una
+              lista de componentes. Para cada componente hay una definición de
+              sus propiedades, sus comunicaciones con otros componentes y la
+              zona de diseño donde se inyectará el componente.
+            </p>
+          </section>
+        </section>
+
+        <section data-background-color="#BFB0A3">
+          <h2>Estructura</h2>
+        </section>
+
+        <section data-background-color="#0D0D0D">
+          <section data-auto-animate>
+            <h3>Página Declarativa</h3>
+            <pre data-id="code-animation">
+							<code class="hljs" data-trim data-line-numbers>
+								import { LitElement, html, } from 'lit-element';
+								import { getComponentSharedStyles } from '@bbva-web-components/bbva-core-lit-helpers';
+								import styles from './KtGema-styles.js';
+	
+								export class KtGema extends LitElement {
+									static get is() {
+										return 'kt-gema';
+									}
+	
+									// Declare properties
+									static get properties() {
+										return {
+											name: { type: String, },
+										};
+									}
+	
+									// Initialize properties
+									constructor() {
+										super();
+										this.name = 'Cells';
+									}
+	
+									static get styles() {
+										return [
+											styles,
+											getComponentSharedStyles('kt-gema-shared-styles')
+										];
+									}
+	
+									// Define a template
+									render() {
+										return html`
+											<slot></slot>
+											<p>Welcome to ${this.name}</p>
+										`;
+									}
+								}
+							</code>
+						</pre>
+          </section>
+          <section data-auto-animate>
+            <h3>Página Dinámica</h3>
+            <pre data-id="code-animation">
+						<code class="hljs" data-trim data-line-numbers>
+							var orignReceive = {
+								currentPage: {
+									url: '/successful-response',
+									params: []
+								},
+								template,
+								components: [
+									header,
+									sidebarMenu,
+									navigationHandler,
+									{
+										zone: 'app__main',
+										type: 'UI',
+										familyPath: '@gema/bbva-successful-response',
+										tag: 'bbva-successful-response',
+										render: 'litElement',
+										properties: {
+											opinatorConfigDefault: CONFIG.opinator,
+											launchMarketRatingProcess: true,
+											url: CONFIG.configUrl,
+											showCurrencyCode: false,
+											parseCurrency: { 'PEN': 'S/', 'USD': 'US$', 'EUR': '€'},
+											withImportantNotification: true,
+											showLinkCodi: false,
+											showSpinner: true,
+											paragraphInfoScreenShared: true,
+											operationPanelRightImage: {
+												plin: CONFIG.plin.plinImage,
+											},
+											cellsConnections: {
+												in: {
+													__bridge_page_viewSuccessfulResponse: {
+														bind: 'callResetOpinatorVotes'
+													},
+													ch_config_data_successful_panel_plin_transfers: {
+														bind: 'getDataPrintPanel'
+													}...
+												},
+												out: {
+													go_to_dashboard_finished_operation: {
+														bind: 'finish-transfer',
+														link: {
+															page: 'dashboard'
+														}
+													}...
+												}
+						</code>
+					</pre>
+          </section>
+        </section>
+
+        <section data-background-color="#BFB0A3">
+          <h3>Ejemplo</h3>
+        </section>
+
+				<section data-background-color="#0D0D0D" data-auto-animate>
+					<p>En la terminal del SO, ejecutar los siguientes comandos:</p>
+					<pre data-id="code-animation">
+						<code class="hljs" data-trim data-line-numbers="2, 6">
+							/* cells - Mostrará las distintas opciones con las que cuenta este comando */
+							cells
+							
+							/* Elejimos: cells lit-component:create name [namespace]
+							El cual creará un componente lit y requiere como datos el nombre y el espacio. */
+							cells lit-component:create kt-gema @kt-gema
+						</code>
+					</pre>
+				</section>
+      </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+      });
+    </script>
+  </body>
+</html>
